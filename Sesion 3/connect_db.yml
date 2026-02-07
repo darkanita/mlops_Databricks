@@ -1,0 +1,24 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+
+jobs:
+- job: 'Training_Jobs'
+  displayName: 'Training Jobs Databricks'
+  steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: 3.9.19
+        addToPath: true
+        architecture: 'x64'
+      displayName: 'Use Python Version: 3.9.19'
+    - script: |
+        pip install databricks-cli
+        echo "Executing Jobs in workspace ..."
+        databricks jobs run-now --job-id 241641504592704
+      displayName: 'Run Databricks job'
+      env:
+        DATABRICKS_HOST: https://adb-2495978626582077.17.azuredatabricks.net/
+        DATABRICKS_TOKEN: '<YOUR_DATABRICKS_TOKEN>'
